@@ -1,0 +1,14 @@
+<launch>
+    <node pkg="local_planner" type="local_trajectory_generator_node" name="local_trajectory_generator_node" output="screen">
+        <param name="horizonDistance" value="200"/>
+        <param name="rollOutNumber" value="16"/>           <!--候选路径数目-->
+        <param name="rollOutDensity" value="0.5"/>         <!--候选路径之间的密度-->
+        <param name="horizontalSafetyDistancel" value="0.2"/><!--水平安全距离-->
+        <param name="verticalSafetyDistance" value="0.2"/>   <!--垂直安全距离-->
+        <param name="minFollowingDistance" value="5"/>    
+        <param name="lateralSkipDistance" value="6.0"/>    
+        <param name="width" value="0.63"/>                  <!--车身宽度-->
+        <param name="length" value="1.5"/>                <!--车身长度-->
+        <param name="wheel_base" value="0.81"/>            <!--轴长-->
+    </node>
+</launch> 

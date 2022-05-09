@@ -1,0 +1,32 @@
+<launch>
+  <!--底盘-->
+  <node pkg="car_controller" type="car_controller" name="car_controller"/>
+
+  <!--imu-->
+  <node pkg="lpms_imu" type="lpms_imu_node" name="lpms_imu_node"/>
+
+  <!--启动激光雷达-->
+  <include file="$(find rplidar_ros)/launch/rplidar_s1.launch" /><!--输出laserscan话题-->
+
+  <!--启动velodyne激光雷达-->
+  <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" /><!--输出scan话题-->
+
+  <!--启动激光里程计-->
+  <include file="$(find rf2o_laser_odometry)/launch/rf2o_laser_odometry.launch" /><!--接收scan话题-->
+
+  <!--ekf融合-->
+  <!--include file="$(find ackermann_navigation)/launch/rf2o/rf2o_ekf.launch"/-->  
+  <include file="$(find ackermann_navigation)/launch/rf2o/rf2o_ekf_no_tf.launch"/><!-- no publish tf-->  
+
+  <!--单线激光雷达检测障碍物-->
+  <node pkg="laser_detection" type="laser_detection" name="laser_detection"/>
+
+  <!--启动速度分级控制-->
+  <include file="$(find base_vel_mux)/launch/base_vel_mux.launch" />
+
+  <!--tf变换-->
+  <node pkg="tf" type="static_transform_publisher" name="base_frame_velodyne" args=" 0.405 0 1.26 0 0 0 /base_link /velodyne 30"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_frame_laser" args="0.55 0 0.55 0 0 0 /base_link /laser 30"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_frame_imu" args="0.405 0 0.55 0 0 0 /base_link /imu 30"/>
+</launch>
+

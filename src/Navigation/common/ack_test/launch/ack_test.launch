@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base2vlp" args="0.405 0 1.26 0 0 0 1 /base_link /velodyne" />  
+
+</launch>

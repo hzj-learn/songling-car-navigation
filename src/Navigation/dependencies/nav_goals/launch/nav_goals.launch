@@ -1,0 +1,26 @@
+<launch>
+  <arg name="use_log_lever" default="false"/>
+  <arg name="left_down_point_x" default = "0.0"/>
+  <arg name="left_down_point_y" default = "0.0"/>
+  <arg name="right_down_point_x" default = "3.0"/>
+  <arg name="right_down_point_y" default = "0.0"/>
+  <arg name="right_up_point_x" default = "3.0"/>
+  <arg name="right_up_point_y" default = "-3.0"/>
+  <arg name="left_up_point_x" default = "0.0"/>
+  <arg name="left_up_point_y" default = "-3.0"/>
+
+  <group if="$(arg use_log_lever)">
+    <node pkg="rosservice" type="rosservice" name="set_logger_level" args="call /xrobot_goal/set_logger_level '{logger: 'ros', level: 'DEBUG'}'"/>
+  </group>
+
+  <node name="xrobot_goal" pkg="xrobot_goal" type="nav_goals_node" output="screen">
+    <param name="left_down_point_x" type="double" value="$(arg left_down_point_x)"/>
+    <param name="left_down_point_y" type="double" value="$(arg left_down_point_y)"/>
+    <param name="right_down_point_x" type="double" value="$(arg right_down_point_x)"/>
+    <param name="right_down_point_y" type="double" value="$(arg right_down_point_y)"/>
+    <param name="right_up_point_x" type="double" value="$(arg right_up_point_x)"/>
+    <param name="right_up_point_y" type="double" value="$(arg right_up_point_y)"/>
+    <param name="left_up_point_x" type="double" value="$(arg left_up_point_x)"/>
+    <param name="left_up_point_y" type="double" value="$(arg left_up_point_y)"/>
+  </node>
+</launch>

@@ -1,0 +1,16 @@
+<launch>
+  <arg name="use_log_lever" default="false"/>
+  <arg name="rtk_port" default="/dev/ttyUSB2"/>
+  <arg name="rtk_baudrate" default="115200"/>
+  <arg name="debug" default="0"/>
+
+    <group if="$(arg use_log_lever)">
+      <node pkg="rosservice" type="rosservice" name="set_logger_level" args="call /xrobot/set_logger_level '{logger: 'ros', level: 'DEBUG'}'"/>
+    </group>
+
+    <node name="xrobot" pkg="xrobot" type="xrobot_pose_node" output="screen">
+      <param name="rtk_port" type="string" value="$(arg rtk_port)" />
+      <param name="rtk_baudrate" type="int" value="$(arg rtk_baudrate)"/>
+      <param name="debug" type="int" value="$(arg debug)"/>
+    </node>
+  </launch>

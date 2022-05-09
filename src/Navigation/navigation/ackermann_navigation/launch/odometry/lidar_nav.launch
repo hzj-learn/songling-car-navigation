@@ -1,0 +1,25 @@
+<launch>
+  <!--启动底盘-->
+
+  <!--imu-->
+  <node pkg="lpms_imu_node" type="lpms_imu" name="lpms_imu"/>
+
+  <!--EKF-->
+  <include file="$(find ackermann_navigation)/launch/odometry/ekf.launch"/>
+
+  <!--速度平滑滤波-->
+  <include file="$(find ackermann_navigation)/launch/bringup_smoother.launch"/>
+
+  <!--启动激光雷达-->
+  <include file="$(find rplidar_ros)/launch/rplidar_s1.launch" />
+
+  <!--tf变换-->
+  <node pkg="tf" type="static_transform_publisher" name="base_frame_laser" args="0.68 0 0.454 0 0 0 /base_link /laser 30"/>
+
+  <!--gmapping-->
+  <include file="$(find ackermann_navigation)/launch/gmapping.launch.xml"/>
+
+  <!--move_base-->
+  <include file="$(find ackermann_navigation)/launch/odometry/teb_move_base.launch"/>
+</launch>
+

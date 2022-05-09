@@ -1,0 +1,7 @@
+<launch>
+  <!-- Load rollout_generator -->
+  <include file="$(find local_planner)/launch/rollout_generator.launch" />
+
+  <!-- Load local_trajectory_generator -->
+  <include file="$(find local_planner)/launch/local_trajectory_generator.launch" />
+</launch>

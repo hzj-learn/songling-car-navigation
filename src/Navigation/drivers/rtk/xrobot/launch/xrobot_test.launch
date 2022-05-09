@@ -1,0 +1,17 @@
+<launch>
+  <arg name="use_log_lever" default="false"/>
+  <arg name="odomType" default = "1"/>
+    <!-- CHASSIS_ODOM = 0,RTK_ODOM = 1,-->
+
+    <group if="$(arg use_log_lever)">
+      <node pkg="rosservice" type="rosservice" name="set_logger_level" args="call /xrobot/set_logger_level '{logger: 'ros', level: 'DEBUG'}'"/>
+    </group>
+
+    <node name="xrobot" pkg="xrobot" type="xrobot_pose_node" output="screen">
+      <param name="odomType" value = "$(arg odomType)"/>
+      <param name="serial_port" type="string" value="/dev/xrobot_serial"/>
+      <param name="serial_baudrate" type="int" value="115200"/>
+      <param name="rtk_port" type="string" value="/dev/ttyUSB1" />
+      <param name="rtk_baudrate" type="int" value="115200"/>
+    </node>
+  </launch>

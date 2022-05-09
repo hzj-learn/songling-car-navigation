@@ -1,0 +1,7 @@
+local_costmap:
+   global_frame: /odom_combined # Indicates the frame for the costmap to operate in.
+   width: 6.0 # Width of the map, in meters.
+   height: 6.0 # Height of the map, in meters.
+   resolution: 0.05 # Resolution of the map in meters per cell.
+   static_map: false # Indicates whether the system uses or not a static map.
+   rolling_window: true # Use a rolling window map.

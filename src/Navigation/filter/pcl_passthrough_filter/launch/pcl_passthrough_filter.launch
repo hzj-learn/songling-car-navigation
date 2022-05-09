@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+  <node pkg="pcl_passthrough_filter" type="pcl_passthrough_filter" name="pcl_passthrough_filter" output="screen"/>
+</launch>

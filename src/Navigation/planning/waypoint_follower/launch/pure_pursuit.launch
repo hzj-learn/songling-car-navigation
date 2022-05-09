@@ -1,0 +1,9 @@
+<launch>
+	<arg name="linear_interpolate_mode" default="True"/>
+        <arg name="const_velocity_" default="1.0"/>
+	<!-- rosrun waypoint_follower pure_pursuit -->
+	<node pkg="waypoint_follower" type="pure_pursuit" name="pure_pursuit" output="screen">
+		<param name="linear_interpolate_mode" value="$(arg linear_interpolate_mode)"/>
+                <param name="const_velocity_" value="$(arg const_velocity_)"/>
+	</node>
+</launch>

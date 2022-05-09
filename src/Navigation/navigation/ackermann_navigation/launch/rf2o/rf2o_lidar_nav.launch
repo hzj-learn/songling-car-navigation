@@ -1,0 +1,32 @@
+<launch>
+  <!--底盘-->
+  
+  <!--imu-->
+  <node pkg="lpms_imu" type="lpms_imu_node" name="lpms_imu_node"/>
+
+  <!--启动激光雷达-->
+  <!--include file="$(find rplidar_ros)/launch/rplidar_s1.launch" /--><!--输出laserscan话题-->
+
+  <!--启动velodyne激光雷达-->
+  <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" /><!--输出scan话题-->
+
+  <!--启动激光里程计-->
+  <include file="$(find rf2o_laser_odometry)/launch/rf2o_laser_odometry.launch" /><!--接收scan话题-->
+
+  <!--ekf融合-->
+  <include file="$(find ackermann_navigation)/launch/rf2o/rf2o_ekf.launch"/>  
+
+  <!--速度平滑滤波-->
+  <include file="$(find ackermann_navigation)/launch/bringup_smoother.launch"/>
+
+  <!--tf变换-->
+  <!--node pkg="tf" type="static_transform_publisher" name="base_frame_laser" args="0.52 0 0.48 0 0 0 /base_link /laser 30"/--><!---以底盘中心为远点-->
+  <node pkg="tf" type="static_transform_publisher" name="base_frame_laser" args="0.05 0 0.454 0 0 0 /base_link /laser 30"/><!---以前轮中心为远点-->
+
+  <!--gmapping-->
+  <include file="$(find ackermann_navigation)/launch/rf2o/rf2o_gmapping.launch.xml"/><!--接收laserscan话题-->
+
+  <!--move_base-->
+  <include file="$(find ackermann_navigation)/launch/rf2o/rf2o_move_base.launch"/><!--接收laserscan话题-->
+</launch>
+

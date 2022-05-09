@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<launch>
+  <node pkg="move_base" type="move_base" respawn="true" name="move_base" output="screen">
+    <rosconfig file="$(find ackermann_navigation)/config/costmap_common_configs.yaml" command="load" ns="global_costmap" />
+    <rosconfig file="$(find ackermann_navigation)/config/costmap_common_configs.yaml" command="load" ns="local_costmap" />
+    <rosconfig file="$(find ackermann_navigation)/config/local_costmap_configs.yaml" command="load" />
+    <rosconfig file="$(find ackermann_navigation)/config/global_costmap_configs.yaml" command="load" />
+    <rosconfig file="$(find ackermann_navigation)/config/teb_local_planner_configs.yaml" command="load" />
+
+    <config name="base_global_planner" value="global_planner/GlobalPlanner" />
+		<config name="planner_frequency" value="1.0" />
+		<config name="planner_patience" value="5.0" />
+
+    <config name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+    <config name="controller_frequency" value="5.0" />
+    <config name="controller_patience" value="15.0" />
+    <config name="clearing_rotation_allowed" value="false" />
+  </node>
+</launch>
+
+<?xml version="1.0"?>
+
+<launch>
+
+    <!-- Navstack -->
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <!-- local planner -->
+        <!-- costmap layers -->    
+        <rosconfig file="$(find ackermann_navigation)/config/local_costmap_configs.yaml" command="load"/>
+        <rosconfig file="$(find ackermann_navigation)/config/global_costmap_configs.yaml" command="load"/> 
+        <!-- move_base configs -->
+        <rosconfig file="$(find ackermann_navigation)/config/move_base_configs.yaml" command="load"/>
+        <remap from="/odom" to="/odometry/filtered"/>
+    </node>
+
+    <!-- L1 controller -->  
+    <node pkg="ackermann_navigation" type="L1_controller_v2" respawn="false" name="L1_controller_v2" output="screen">       
+        <!-- L1 -->
+        <config name="Vcmd" value="1.0" /> <!-- speed of car m/s -->        
+        <!-- ESC -->
+        <config name="baseSpeed" value="1610"/> <!-- pwm for motor constant speed, 1480: stop, 1440: ~0.5m/s, 1430: ~1.5m/s --> 
+        <!-- Servo -->
+        <config name="baseAngle" value="90.0"/> <!-- the middle pos of servo, for tt02: 87, for hsp: ? -->
+        <config name="AngleGain" value="-3.5"/> <!-- for tt02: >0, for hsp: <0 -->		
+
+        <!-- remap from="/odometry/filtered" to="odom" / --> 
+        <remap from="/move_base_node/NavfnROS/plan" to="/move_base/NavfnROS/plan" /> 
+    </node>
+
+</launch>
